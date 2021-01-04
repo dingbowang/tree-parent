@@ -1,0 +1,17 @@
+#服务端：
+server.port=8080
+server.servlet.context-path=/tree
+
+#数据源：
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://120.79.217.47:3306/tree?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+spring.datasource.username=root
+spring.datasource.password=ding1230@
+
+#mybatis
+
+
+#日志：
+logging.level.com.segi.uhomecp.resource.web.common.dao=debug
+
+spring.main.allow-bean-definition-overriding=true
