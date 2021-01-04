@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public RetResult exceptionHandler(HttpServletRequest req, Exception e){
+
         logger.error(e.getMessage(),e);
         return RetResponse.makeRsp(RetCode.FAIL.code,"系统内部异常",null);
     }
