@@ -47,6 +47,10 @@ public class StoneUser implements Serializable {
     */
     private String age;
     /**
+     * 邮箱
+     */
+    private String email;
+    /**
     * 头像
     */
     private String photo;
@@ -70,8 +74,8 @@ public class StoneUser implements Serializable {
     private Date updateDate;
     /**
     * 删除标记
-1：删除
-0：未删除
+    1：删除
+    0：未删除
     */
     private String delFlag;
 
@@ -123,7 +127,15 @@ public class StoneUser implements Serializable {
     public void setAge(String age) {
         this.age = age;
     }
-        
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhoto() {
         return photo;
     }
@@ -163,7 +175,7 @@ public class StoneUser implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-        
+
     public String getDelFlag() {
         return delFlag;
     }
@@ -175,18 +187,19 @@ public class StoneUser implements Serializable {
     @Override
     public String toString(){
         return "StoneUser {" +
-            "id : " + id + ", " +
-            "mobile : " + mobile + ", " +
-            "password : " + password + ", " +
-            "nickname : " + nickname + ", " +
-            "gender : " + gender + ", " +
-            "age : " + age + ", " +
-            "photo : " + photo + ", " +
-            "enabled : " + enabled + ", " +
-            "remarks : " + remarks + ", " +
-            "createDate : " + createDate + ", " +
-            "updateDate : " + updateDate + ", " +
-            "delFlag : " + delFlag + ", " +
-        '}';
+                "id : " + id + ", " +
+                "mobile : " + mobile + ", " +
+                "password : " + password + ", " +
+                "nickname : " + nickname + ", " +
+                "gender : " + gender + ", " +
+                "age : " + age + ", " +
+                "email : " + email + ", " +
+                "photo : " + photo + ", " +
+                "enabled : " + enabled + ", " +
+                "remarks : " + remarks + ", " +
+                "createDate : " + createDate + ", " +
+                "updateDate : " + updateDate + ", " +
+                "delFlag : " + delFlag + ", " +
+                '}';
     }
 }

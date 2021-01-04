@@ -18,7 +18,7 @@ import java.util.Objects;
 /**
  * 用户(StoneUser表)服务实现类
  *
- * @author makejava
+ * @author dbw
  * @since 2021-01-03 12:50:40
  */
 @Service("stoneUserService")
@@ -90,8 +90,7 @@ public class StoneUserServiceImpl implements StoneUserService {
         String newPassword = Md5Util.EncoderByMd5(stoneUser.getPassword());
         stoneUser.setId(UUIDUtil.getUUID());
         stoneUser.setPassword(newPassword);
-        int id = this.stoneUserMapper.insertSelective(stoneUser);
-        return id;
+        return this.stoneUserMapper.insertSelective(stoneUser);
     }
 
     /**
