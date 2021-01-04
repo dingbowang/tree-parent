@@ -21,6 +21,13 @@ import java.util.List;
  * @author dbw
  * @date 2021/01/03/5:15 下午
  * @Description
+ *   REQUIRED ：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
+ *   SUPPORTS ：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+ *   MANDATORY ：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。
+ *   REQUIRES_NEW ：创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+ *   NOT_SUPPORTED ：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+ *   NEVER ：以非事务方式运行，如果当前存在事务，则抛出异常。
+ *   NESTED ：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于 REQUIRED
  */
 @Configuration
 public class TransactionConfiguration implements Ordered {
@@ -30,7 +37,7 @@ public class TransactionConfiguration implements Ordered {
      *
      */
     //private static final String AOP_POINTCUT_EXPRESSION = "execution (* cn.hjljy.fastboot..*.service..*.*(..))";
-    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.stone.tree.web..service..*.*(..))";
+    private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.stone.tree.web.*.service..*(..))";
 
     /**
      * 注入事务管理器
@@ -57,7 +64,9 @@ public class TransactionConfiguration implements Ordered {
         RuleBasedTransactionAttribute txAttrRequiredReadOnly = new RuleBasedTransactionAttribute();
         txAttrRequiredReadOnly.setName("SUPPORTS事务");
         //设置事务传播机制，PROPAGATION_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行
-        txAttrRequiredReadOnly.setPropagationBehavior(TransactionDefinition.PROPAGATION_SUPPORTS);
+        //txAttrRequiredReadOnly.setPropagationBehavior(TransactionDefinition.PROPAGATION_SUPPORTS);
+        //目前设置事物级别为PROPAGATION_REQUIRED无事务即新建，防止在readonly方法中涉及到write
+        txAttrRequiredReadOnly.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         //设置异常回滚为Exception  默认是RuntimeException
         txAttrRequiredReadOnly.setRollbackRules(rollbackRuleAttributes);
         txAttrRequiredReadOnly.setReadOnly(true);
