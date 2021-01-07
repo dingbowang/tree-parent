@@ -3,13 +3,19 @@ package com.stone.tree.web.user.controller;
 import com.stone.tree.annotate.OperLog;
 import com.stone.tree.response.RetResponse;
 import com.stone.tree.response.RetResult;
+import com.stone.tree.util.FastDFSUtil;
 import com.stone.tree.web.user.bean.StoneUser;
 import com.stone.tree.web.user.service.StoneUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 import static com.stone.tree.constant.OperTypeConstant.*;
@@ -29,11 +35,15 @@ import static com.stone.tree.constant.OperTypeConstant.*;
 @RequestMapping("/stoneUser")
 @Api(value = "用户管理",description = "用户信息的增删改查")
 public class StoneUserController {
+    private static final Logger logger = LoggerFactory.getLogger(StoneUserController.class);
     /**
      * 服务对象
      */
     @Resource
     private StoneUserService stoneUserService;
+
+    @Autowired
+    private FastDFSUtil fastDFSUtil;
 
 
     @GetMapping("test")
@@ -162,5 +172,18 @@ public class StoneUserController {
         }
         return RetResponse.makeErrRsp("查询失败");
     }
-    
+
+    @PostMapping("uploadPic")
+    public RetResult<StoneUser>  uploadPic(MultipartFile file) throws IOException {
+        String upload = fastDFSUtil.upload(file);
+        logger.info("地址："+upload);
+        return RetResponse.makeOKRsp();
+    }
+
+    @GetMapping("deleteFile")
+    public RetResult<StoneUser>  deleteFile(String uri) throws IOException {
+        fastDFSUtil.deleteFile(uri);
+        return RetResponse.makeOKRsp();
+    }
+
 }

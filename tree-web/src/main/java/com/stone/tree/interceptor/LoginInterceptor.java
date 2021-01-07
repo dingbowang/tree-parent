@@ -1,12 +1,10 @@
 package com.stone.tree.interceptor;
 
-import com.stone.tree.enums.RetCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 /**
  * @author dbw
@@ -18,11 +16,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(Objects.isNull(request.getSession().getAttribute("userInfo"))){
+        /*if(Objects.isNull(request.getSession().getAttribute("userInfo"))){
             response.setStatus(RetCode.FAIL.code);
             return false;
         }else{
             return true;
-        }
+        }*/
+        return true;
     }
 }
