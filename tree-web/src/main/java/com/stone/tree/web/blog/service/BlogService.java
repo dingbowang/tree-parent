@@ -1,5 +1,6 @@
 package com.stone.tree.web.blog.service;
 
+import com.stone.tree.response.PageResult;
 import com.stone.tree.web.blog.bean.Blog;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface BlogService {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<Blog> selectPage(int start, int limit);
+    PageResult selectPage(int start, int limit);
 
     /**
      * 查询全部

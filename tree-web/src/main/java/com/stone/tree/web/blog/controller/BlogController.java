@@ -1,5 +1,6 @@
 package com.stone.tree.web.blog.controller;
 
+import com.stone.tree.response.PageResult;
 import com.stone.tree.response.RetResponse;
 import com.stone.tree.response.RetResult;
 import com.stone.tree.web.blog.bean.Blog;
@@ -13,7 +14,7 @@ import java.util.List;
  * (Blog)控制层
  *
  * @author makejava
- * @since 2021-01-08 16:35:09
+ * @since 2021-01-09 14:04:06
  */
 @RestController
 @RequestMapping("/blog")
@@ -106,10 +107,10 @@ public class BlogController {
      * @return Response对象
      */
     @GetMapping("selectPage")
-    public RetResult<List<Blog>> selectPage(Integer start, Integer limit) {
-        List<Blog> blogs = blogService.selectPage(start, limit);
-        if (blogs != null) {
-           return RetResponse.makeOKRsp(blogs);
+    public RetResult<PageResult> selectPage(Integer start, Integer limit) {
+        PageResult pageResult= blogService.selectPage(start, limit);
+        if (pageResult != null) {
+           return RetResponse.makeOKRsp(pageResult);
         }
         return RetResponse.makeErrRsp("查询失败");
     }

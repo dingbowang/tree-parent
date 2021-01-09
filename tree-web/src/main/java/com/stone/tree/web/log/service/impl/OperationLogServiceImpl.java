@@ -1,5 +1,9 @@
 package com.stone.tree.web.log.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.stone.tree.response.PageResult;
+import com.stone.tree.util.PageUtil;
 import com.stone.tree.web.log.bean.OperationLog;
 import com.stone.tree.web.log.mapper.OperationLogMapper;
 import com.stone.tree.web.log.service.OperationLogService;
@@ -12,7 +16,7 @@ import java.util.List;
  * (OperationLog表)服务实现类
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:13:47
  */
 @Service("operationLogService")
 public class OperationLogServiceImpl implements OperationLogService {
@@ -22,12 +26,12 @@ public class OperationLogServiceImpl implements OperationLogService {
     /**
      * 通过ID查询单条数据
      *
-     * @param operId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public OperationLog selectById(String operId) {
-        return this.operationLogMapper.selectById(operId);
+    public OperationLog selectById(String id) {
+        return this.operationLogMapper.selectById(id);
     }
 
     /**
@@ -38,8 +42,11 @@ public class OperationLogServiceImpl implements OperationLogService {
      * @return 对象列表
      */
     @Override
-    public List<OperationLog> selectPage(int start, int limit) {
-        return this.operationLogMapper.selectPage(start, limit);
+    public PageResult selectPage(int start, int limit) {
+        PageHelper.startPage(start,limit);
+        List<OperationLog> list =this.operationLogMapper.selectPage();
+        PageInfo<OperationLog> pageInfo = new PageInfo<>(list);
+        return PageUtil.pageReturn(pageInfo);
     }
 
     /**
@@ -70,7 +77,7 @@ public class OperationLogServiceImpl implements OperationLogService {
      */
     @Override
     public int insert(OperationLog operationLog) {
-        return this.operationLogMapper.insert(operationLog);
+        return this.operationLogMapper.insertSelective(operationLog);
     }
 
     /**
@@ -93,18 +100,18 @@ public class OperationLogServiceImpl implements OperationLogService {
     @Override
     public OperationLog update(OperationLog operationLog) {
         this.operationLogMapper.update(operationLog);
-        return this.selectById(operationLog.getOperId());
+        return this.selectById(operationLog.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param operId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public int deleteById(String operId) {
-        return this.operationLogMapper.deleteById(operId);
+    public int deleteById(String id) {
+        return this.operationLogMapper.deleteById(id);
     }
     
     /**

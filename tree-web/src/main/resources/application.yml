@@ -32,9 +32,16 @@ fdfs:
   web-server-url: http://120.79.217.47/
 #mybatis
 mybatis:
-  type-aliases-package: com.stone.tree.web.user.entity # 所有Entity别名类所在包
+  type-aliases-package: com.stone.tree.web.*.bean # 所有Entity别名类所在包
   config-location: classpath:mybatis/mybatis-config.xml # mybatis配置文件所在路径
   mapper-locations: classpath:mapper/*.xml # mapper映射文件
+
+#pageHelper
+pagehelper:
+  #dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
 
 #sql日志：
 logging:

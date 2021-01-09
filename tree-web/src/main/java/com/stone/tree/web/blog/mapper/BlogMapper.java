@@ -1,18 +1,16 @@
 package com.stone.tree.web.blog.mapper;
 
 import com.stone.tree.web.blog.bean.Blog;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Blog)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-08 16:57:09
+ * @since 2021-01-09 14:04:07
  */
-@Mapper
 public interface BlogMapper {
 
     /**
@@ -30,7 +28,7 @@ public interface BlogMapper {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<Blog> selectPage(@Param("start") int start, @Param("limit") int limit);
+    List<Blog> selectPage();
 
     /**
      * 查询全部

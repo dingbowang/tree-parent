@@ -1,6 +1,7 @@
 package com.stone.tree.web.user.controller;
 
 import com.stone.tree.annotate.OperLog;
+import com.stone.tree.response.PageResult;
 import com.stone.tree.response.RetResponse;
 import com.stone.tree.response.RetResult;
 import com.stone.tree.util.FastDFSUtil;
@@ -165,10 +166,10 @@ public class StoneUserController {
      * @return Response对象
      */
     @GetMapping("selectPage")
-    public RetResult<List<StoneUser>> selectPage(Integer start, Integer limit) {
-        List<StoneUser> stoneUsers = stoneUserService.selectPage(start, limit);
-        if (stoneUsers != null) {
-           return RetResponse.makeOKRsp(stoneUsers);
+    public RetResult<PageResult> selectPage(Integer start, Integer limit) {
+        PageResult pageResult = stoneUserService.selectPage(start, limit);
+        if (pageResult != null) {
+           return RetResponse.makeOKRsp(pageResult);
         }
         return RetResponse.makeErrRsp("查询失败");
     }

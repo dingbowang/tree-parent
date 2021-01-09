@@ -1,5 +1,9 @@
 package com.stone.tree.web.log.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.stone.tree.response.PageResult;
+import com.stone.tree.util.PageUtil;
 import com.stone.tree.web.log.bean.ExceptionLog;
 import com.stone.tree.web.log.mapper.ExceptionLogMapper;
 import com.stone.tree.web.log.service.ExceptionLogService;
@@ -12,7 +16,7 @@ import java.util.List;
  * (ExceptionLog表)服务实现类
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:09:16
  */
 @Service("exceptionLogService")
 public class ExceptionLogServiceImpl implements ExceptionLogService {
@@ -22,12 +26,12 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
     /**
      * 通过ID查询单条数据
      *
-     * @param excId 主键
+     * @param id 主键
      * @return 实例对象
      */
     @Override
-    public ExceptionLog selectById(String excId) {
-        return this.exceptionLogMapper.selectById(excId);
+    public ExceptionLog selectById(String id) {
+        return this.exceptionLogMapper.selectById(id);
     }
 
     /**
@@ -38,8 +42,11 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
      * @return 对象列表
      */
     @Override
-    public List<ExceptionLog> selectPage(int start, int limit) {
-        return this.exceptionLogMapper.selectPage(start, limit);
+    public PageResult selectPage(int start, int limit) {
+        PageHelper.startPage(start,limit);
+        List<ExceptionLog> list =this.exceptionLogMapper.selectPage();
+        PageInfo<ExceptionLog> pageInfo = new PageInfo<>(list);
+        return PageUtil.pageReturn(pageInfo);
     }
 
     /**
@@ -70,7 +77,7 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
      */
     @Override
     public int insert(ExceptionLog exceptionLog) {
-        return this.exceptionLogMapper.insert(exceptionLog);
+        return this.exceptionLogMapper.insertSelective(exceptionLog);
     }
 
     /**
@@ -93,18 +100,18 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
     @Override
     public ExceptionLog update(ExceptionLog exceptionLog) {
         this.exceptionLogMapper.update(exceptionLog);
-        return this.selectById(exceptionLog.getExcId());
+        return this.selectById(exceptionLog.getId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param excId 主键
+     * @param id 主键
      * @return 是否成功
      */
     @Override
-    public int deleteById(String excId) {
-        return this.exceptionLogMapper.deleteById(excId);
+    public int deleteById(String id) {
+        return this.exceptionLogMapper.deleteById(id);
     }
     
     /**

@@ -78,7 +78,7 @@ public class OperLogAspect implements Ordered {
 
         OperationLog operlog = new OperationLog();
         try {
-            operlog.setOperId(UUIDUtil.getUUID()); // 主键ID
+            operlog.setId(UUIDUtil.getUUID()); // 主键ID
 
             // 从切面织入点处通过反射机制获取织入点处的方法
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -199,7 +199,7 @@ public class OperLogAspect implements Ordered {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             // 获取切入点所在的方法
             Method method = signature.getMethod();
-            excepLog.setExcId(UUIDUtil.getUUID());
+            excepLog.setId(UUIDUtil.getUUID());
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();
             // 获取请求的方法名

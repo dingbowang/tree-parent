@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stone.tree.web.user.mapper.StoneUserMapper">
     <!-- 结果集 -->
+    <!--<cache/>-->
     <resultMap type="com.stone.tree.web.user.bean.StoneUser" id="StoneUserMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
@@ -34,7 +35,6 @@
         select
         <include refid="Base_Column_List" />
         from stone_user
-        limit #{start},#{limit}
     </select>
 
     <!-- 查询全部 -->

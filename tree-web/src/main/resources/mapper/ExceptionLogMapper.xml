@@ -3,7 +3,7 @@
 <mapper namespace="com.stone.tree.web.log.mapper.ExceptionLogMapper">
     <!-- 结果集 -->
     <resultMap type="com.stone.tree.web.log.bean.ExceptionLog" id="ExceptionLogMap">
-        <result property="excId" column="exc_id" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="excReqParam" column="exc_req_param" jdbcType="VARCHAR"/>
         <result property="excName" column="exc_name" jdbcType="VARCHAR"/>
         <result property="excMessage" column="exc_message" jdbcType="VARCHAR"/>
@@ -18,14 +18,14 @@
     
     <!-- 基本字段 -->
     <sql id="Base_Column_List">
-        exc_id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver    </sql>
+        id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver    </sql>
     
     <!-- 查询单个 -->
     <select id="selectById" resultMap="ExceptionLogMap">
         select
           <include refid="Base_Column_List" />
         from exception_log
-        where exc_id = #{excId}
+        where id = #{id}
     </select>
 
     <!-- 分页查询 -->
@@ -33,7 +33,6 @@
         select
         <include refid="Base_Column_List" />
         from exception_log
-        limit #{start},#{limit}
     </select>
 
     <!-- 查询全部 -->
@@ -49,8 +48,8 @@
         <include refid="Base_Column_List" />
         from exception_log
         <where>
-                    <if test="excId != null and excId != ''">
-                and exc_id = #{excId}
+                    <if test="id != null and id != ''">
+                and id = #{id}
             </if>
                     <if test="excReqParam != null and excReqParam != ''">
                 and exc_req_param = #{excReqParam}
@@ -86,18 +85,94 @@
     </select>
 
     <!-- 新增所有列 -->
-    <insert id="insert" keyProperty="excId" useGeneratedKeys="true">
-        insert into exception_log(exc_id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
-        values ( #{excId}, #{excReqParam}, #{excName}, #{excMessage}, #{operUserId}, #{operUserName}, #{operMethod}, #{operUri}, #{operIp}, #{operCreateTime}, #{operVer})
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into exception_log(id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
+        values ( #{id}, #{excReqParam}, #{excName}, #{excMessage}, #{operUserId}, #{operUserName}, #{operMethod}, #{operUri}, #{operIp}, #{operCreateTime}, #{operVer})
+    </insert>
+    
+    <!-- 新增所有列（选择性） -->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into exception_log
+<trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null and id != ''">
+            id , 
+        </if>
+        <if test="excReqParam != null and excReqParam != ''">
+            exc_req_param , 
+        </if>
+        <if test="excName != null and excName != ''">
+            exc_name , 
+        </if>
+        <if test="excMessage != null and excMessage != ''">
+            exc_message , 
+        </if>
+        <if test="operUserId != null and operUserId != ''">
+            oper_user_id , 
+        </if>
+        <if test="operUserName != null and operUserName != ''">
+            oper_user_name , 
+        </if>
+        <if test="operMethod != null and operMethod != ''">
+            oper_method , 
+        </if>
+        <if test="operUri != null and operUri != ''">
+            oper_uri , 
+        </if>
+        <if test="operIp != null and operIp != ''">
+            oper_ip , 
+        </if>
+        <if test="operCreateTime != null">
+            oper_create_time , 
+        </if>
+        <if test="operVer != null and operVer != ''">
+            oper_ver , 
+        </if>
+</trim>
+        values 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+         <if test="id != null and id != ''">
+            #{id}, 
+        </if>
+        <if test="excReqParam != null and excReqParam != ''">
+            #{excReqParam}, 
+        </if>
+        <if test="excName != null and excName != ''">
+            #{excName}, 
+        </if>
+        <if test="excMessage != null and excMessage != ''">
+            #{excMessage}, 
+        </if>
+        <if test="operUserId != null and operUserId != ''">
+            #{operUserId}, 
+        </if>
+        <if test="operUserName != null and operUserName != ''">
+            #{operUserName}, 
+        </if>
+        <if test="operMethod != null and operMethod != ''">
+            #{operMethod}, 
+        </if>
+        <if test="operUri != null and operUri != ''">
+            #{operUri}, 
+        </if>
+        <if test="operIp != null and operIp != ''">
+            #{operIp}, 
+        </if>
+        <if test="operCreateTime != null">
+            #{operCreateTime}, 
+        </if>
+        <if test="operVer != null and operVer != ''">
+            #{operVer}, 
+        </if>
+</trim>
     </insert>
     
     <!-- 批量新增 -->
     <insert id="batchInsert">
-        insert into exception_log(exc_id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
+        insert into exception_log(id, exc_req_param, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
         values 
         <foreach collection="exceptionLogs" item="item" index="index" separator=",">
         (
-                        #{item.excId},             #{item.excReqParam},             #{item.excName},             #{item.excMessage},             #{item.operUserId},             #{item.operUserName},             #{item.operMethod},             #{item.operUri},             #{item.operIp},             #{item.operCreateTime},             #{item.operVer}         )
+                        #{item.id},             #{item.excReqParam},             #{item.excName},             #{item.excMessage},             #{item.operUserId},             #{item.operUserName},             #{item.operMethod},             #{item.operUri},             #{item.operIp},             #{item.operCreateTime},             #{item.operVer}         )
          </foreach>
     </insert>
 
@@ -136,12 +211,12 @@
                 oper_ver = #{operVer},
             </if>
                 </set>
-        where exc_id = #{excId}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from exception_log where exc_id = #{excId}
+        delete from exception_log where id = #{id}
     </delete>
     
     <!-- 总数 -->

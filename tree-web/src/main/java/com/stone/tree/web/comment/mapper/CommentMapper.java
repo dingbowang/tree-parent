@@ -1,6 +1,7 @@
 package com.stone.tree.web.comment.mapper;
 
 import com.stone.tree.web.comment.bean.Comment;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2021-01-09 09:57:25
  */
+@Mapper
 public interface CommentMapper {
 
     /**

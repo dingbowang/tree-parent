@@ -2,7 +2,6 @@ package com.stone.tree.web.user.mapper;
 
 import com.stone.tree.web.user.bean.StoneUser;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,11 +25,9 @@ public interface StoneUserMapper {
     /**
      * 分页查询
      *
-     * @param start 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<StoneUser> selectPage(@Param("start") int start, @Param("limit") int limit);
+    List<StoneUser> selectPage();
 
     /**
      * 查询全部

@@ -7,14 +7,14 @@ import java.io.Serializable;
  * (ExceptionLog)实体类
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:09:16
  */
 public class ExceptionLog implements Serializable {
-    private static final long serialVersionUID = 635717300836212622L;
+    private static final long serialVersionUID = -57505336967823167L;
     /**
     * 主键id
     */
-    private String excId;
+    private String id;
     /**
     * 请求参数
     */
@@ -57,12 +57,12 @@ public class ExceptionLog implements Serializable {
     private String operVer;
 
         
-    public String getExcId() {
-        return excId;
+    public String getId() {
+        return id;
     }
 
-    public void setExcId(String excId) {
-        this.excId = excId;
+    public void setId(String id) {
+        this.id = id;
     }
         
     public String getExcReqParam() {
@@ -148,7 +148,7 @@ public class ExceptionLog implements Serializable {
     @Override
     public String toString(){
         return "ExceptionLog {" +
-            "excId : " + excId + ", " +
+            "id : " + id + ", " +
             "excReqParam : " + excReqParam + ", " +
             "excName : " + excName + ", " +
             "excMessage : " + excMessage + ", " +

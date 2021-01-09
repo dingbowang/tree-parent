@@ -3,7 +3,7 @@
 <mapper namespace="com.stone.tree.web.log.mapper.OperationLogMapper">
     <!-- 结果集 -->
     <resultMap type="com.stone.tree.web.log.bean.OperationLog" id="OperationLogMap">
-        <result property="operId" column="oper_id" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="VARCHAR"/>
         <result property="operModule" column="oper_module" jdbcType="VARCHAR"/>
         <result property="operType" column="oper_type" jdbcType="VARCHAR"/>
         <result property="operDesc" column="oper_desc" jdbcType="VARCHAR"/>
@@ -20,14 +20,14 @@
     
     <!-- 基本字段 -->
     <sql id="Base_Column_List">
-        oper_id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver    </sql>
+        id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver    </sql>
     
     <!-- 查询单个 -->
     <select id="selectById" resultMap="OperationLogMap">
         select
           <include refid="Base_Column_List" />
         from operation_log
-        where oper_id = #{operId}
+        where id = #{id}
     </select>
 
     <!-- 分页查询 -->
@@ -35,7 +35,6 @@
         select
         <include refid="Base_Column_List" />
         from operation_log
-        limit #{start},#{limit}
     </select>
 
     <!-- 查询全部 -->
@@ -51,8 +50,8 @@
         <include refid="Base_Column_List" />
         from operation_log
         <where>
-                    <if test="operId != null and operId != ''">
-                and oper_id = #{operId}
+                    <if test="id != null and id != ''">
+                and id = #{id}
             </if>
                     <if test="operModule != null and operModule != ''">
                 and oper_module = #{operModule}
@@ -94,18 +93,106 @@
     </select>
 
     <!-- 新增所有列 -->
-    <insert id="insert" keyProperty="operId" useGeneratedKeys="true">
-        insert into operation_log(oper_id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
-        values ( #{operId}, #{operModule}, #{operType}, #{operDesc}, #{operReqParam}, #{operRespParam}, #{operUserId}, #{operUserName}, #{operMethod}, #{operUri}, #{operIp}, #{operCreateTime}, #{operVer})
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into operation_log(id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
+        values ( #{id}, #{operModule}, #{operType}, #{operDesc}, #{operReqParam}, #{operRespParam}, #{operUserId}, #{operUserName}, #{operMethod}, #{operUri}, #{operIp}, #{operCreateTime}, #{operVer})
+    </insert>
+    
+    <!-- 新增所有列（选择性） -->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into operation_log
+<trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null and id != ''">
+            id , 
+        </if>
+        <if test="operModule != null and operModule != ''">
+            oper_module , 
+        </if>
+        <if test="operType != null and operType != ''">
+            oper_type , 
+        </if>
+        <if test="operDesc != null and operDesc != ''">
+            oper_desc , 
+        </if>
+        <if test="operReqParam != null and operReqParam != ''">
+            oper_req_param , 
+        </if>
+        <if test="operRespParam != null and operRespParam != ''">
+            oper_resp_param , 
+        </if>
+        <if test="operUserId != null and operUserId != ''">
+            oper_user_id , 
+        </if>
+        <if test="operUserName != null and operUserName != ''">
+            oper_user_name , 
+        </if>
+        <if test="operMethod != null and operMethod != ''">
+            oper_method , 
+        </if>
+        <if test="operUri != null and operUri != ''">
+            oper_uri , 
+        </if>
+        <if test="operIp != null and operIp != ''">
+            oper_ip , 
+        </if>
+        <if test="operCreateTime != null">
+            oper_create_time , 
+        </if>
+        <if test="operVer != null and operVer != ''">
+            oper_ver , 
+        </if>
+</trim>
+        values 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+         <if test="id != null and id != ''">
+            #{id}, 
+        </if>
+        <if test="operModule != null and operModule != ''">
+            #{operModule}, 
+        </if>
+        <if test="operType != null and operType != ''">
+            #{operType}, 
+        </if>
+        <if test="operDesc != null and operDesc != ''">
+            #{operDesc}, 
+        </if>
+        <if test="operReqParam != null and operReqParam != ''">
+            #{operReqParam}, 
+        </if>
+        <if test="operRespParam != null and operRespParam != ''">
+            #{operRespParam}, 
+        </if>
+        <if test="operUserId != null and operUserId != ''">
+            #{operUserId}, 
+        </if>
+        <if test="operUserName != null and operUserName != ''">
+            #{operUserName}, 
+        </if>
+        <if test="operMethod != null and operMethod != ''">
+            #{operMethod}, 
+        </if>
+        <if test="operUri != null and operUri != ''">
+            #{operUri}, 
+        </if>
+        <if test="operIp != null and operIp != ''">
+            #{operIp}, 
+        </if>
+        <if test="operCreateTime != null">
+            #{operCreateTime}, 
+        </if>
+        <if test="operVer != null and operVer != ''">
+            #{operVer}, 
+        </if>
+</trim>
     </insert>
     
     <!-- 批量新增 -->
     <insert id="batchInsert">
-        insert into operation_log(oper_id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
+        insert into operation_log(id, oper_module, oper_type, oper_desc, oper_req_param, oper_resp_param, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, oper_create_time, oper_ver)
         values 
         <foreach collection="operationLogs" item="item" index="index" separator=",">
         (
-                        #{item.operId},             #{item.operModule},             #{item.operType},             #{item.operDesc},             #{item.operReqParam},             #{item.operRespParam},             #{item.operUserId},             #{item.operUserName},             #{item.operMethod},             #{item.operUri},             #{item.operIp},             #{item.operCreateTime},             #{item.operVer}         )
+                        #{item.id},             #{item.operModule},             #{item.operType},             #{item.operDesc},             #{item.operReqParam},             #{item.operRespParam},             #{item.operUserId},             #{item.operUserName},             #{item.operMethod},             #{item.operUri},             #{item.operIp},             #{item.operCreateTime},             #{item.operVer}         )
          </foreach>
     </insert>
 
@@ -150,12 +237,12 @@
                 oper_ver = #{operVer},
             </if>
                 </set>
-        where oper_id = #{operId}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from operation_log where oper_id = #{operId}
+        delete from operation_log where id = #{id}
     </delete>
     
     <!-- 总数 -->

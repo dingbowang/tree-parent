@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableTransactionManagement
-@MapperScan(basePackages={"com.stone.tree.web.user.dao"})
+@MapperScan(basePackages={"com.stone.tree.web.*.mapper"})
 @EnableSwagger2
 @SpringBootApplication
 public class TreeWebApplication{

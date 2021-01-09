@@ -1,5 +1,6 @@
 package com.stone.tree.web.log.controller;
 
+import com.stone.tree.response.PageResult;
 import com.stone.tree.response.RetResponse;
 import com.stone.tree.response.RetResult;
 import com.stone.tree.web.log.bean.OperationLog;
@@ -13,7 +14,7 @@ import java.util.List;
  * (OperationLog)控制层
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:13:47
  */
 @RestController
 @RequestMapping("/operationLog")
@@ -32,7 +33,7 @@ public class OperationLogController {
      */
     @GetMapping("selectOne")
     public RetResult<OperationLog> selectOne(OperationLog operationLog) {
-        OperationLog result = operationLogService.selectById(operationLog.getOperId());
+        OperationLog result = operationLogService.selectById(operationLog.getId());
         if(result != null){
            return RetResponse.makeOKRsp(result);
         }
@@ -77,7 +78,7 @@ public class OperationLogController {
      */
     @GetMapping("delete")
     public RetResult<OperationLog> delete(OperationLog operationLog) {
-        int result = operationLogService.deleteById(operationLog.getOperId());
+        int result = operationLogService.deleteById(operationLog.getId());
         if (result > 0) {
            return RetResponse.makeOKRsp(null);
         }
@@ -106,10 +107,10 @@ public class OperationLogController {
      * @return Response对象
      */
     @GetMapping("selectPage")
-    public RetResult<List<OperationLog>> selectPage(Integer start, Integer limit) {
-        List<OperationLog> operationLogs = operationLogService.selectPage(start, limit);
-        if (operationLogs != null) {
-           return RetResponse.makeOKRsp(operationLogs);
+    public RetResult<PageResult> selectPage(Integer start, Integer limit) {
+        PageResult pageResult= operationLogService.selectPage(start, limit);
+        if (pageResult != null) {
+           return RetResponse.makeOKRsp(pageResult);
         }
         return RetResponse.makeErrRsp("查询失败");
     }

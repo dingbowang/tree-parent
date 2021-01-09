@@ -1,9 +1,9 @@
 package com.stone.tree.web.blog.service.impl;
 
-import com.stone.tree.enums.RangeE;
-import com.stone.tree.enums.TopicE;
-import com.stone.tree.util.DateUtil;
-import com.stone.tree.util.UUIDUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.stone.tree.response.PageResult;
+import com.stone.tree.util.PageUtil;
 import com.stone.tree.web.blog.bean.Blog;
 import com.stone.tree.web.blog.mapper.BlogMapper;
 import com.stone.tree.web.blog.service.BlogService;
@@ -16,7 +16,7 @@ import java.util.List;
  * (Blog表)服务实现类
  *
  * @author makejava
- * @since 2021-01-08 16:35:09
+ * @since 2021-01-09 14:04:11
  */
 @Service("blogService")
 public class BlogServiceImpl implements BlogService {
@@ -42,8 +42,11 @@ public class BlogServiceImpl implements BlogService {
      * @return 对象列表
      */
     @Override
-    public List<Blog> selectPage(int start, int limit) {
-        return this.blogMapper.selectPage(start, limit);
+    public PageResult selectPage(int start, int limit) {
+        PageHelper.startPage(start,limit);
+        List<Blog> list =this.blogMapper.selectPage();
+        PageInfo<Blog> pageInfo = new PageInfo<>(list);
+        return PageUtil.pageReturn(pageInfo);
     }
 
     /**
@@ -74,12 +77,6 @@ public class BlogServiceImpl implements BlogService {
      */
     @Override
     public int insert(Blog blog) {
-        blog.setId(UUIDUtil.getUUID());
-        blog.setCreateTime(DateUtil.nowDateToLong(DateUtil.FORMAT_YYYYMMDDHHMMSS));
-        blog.setUpdateTime(DateUtil.nowDateToLong(DateUtil.FORMAT_YYYYMMDDHHMMSS));
-        blog.setBlogRangeZh(RangeE.getDescByCode(Integer.valueOf(blog.getBlogRange())));
-        blog.setBlogTopicZh(TopicE.getDescByCode(Integer.valueOf(blog.getBlogTopic())));
-        //blog.setStatus(BooleanE.yes.getId().toString());
         return this.blogMapper.insertSelective(blog);
     }
 

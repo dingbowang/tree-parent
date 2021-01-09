@@ -7,14 +7,14 @@ import java.io.Serializable;
  * (OperationLog)实体类
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:13:47
  */
 public class OperationLog implements Serializable {
-    private static final long serialVersionUID = -66597070847803552L;
+    private static final long serialVersionUID = -83198126607668100L;
     /**
     * 主键id
     */
-    private String operId;
+    private String id;
     /**
     * 功能模块
     */
@@ -65,12 +65,12 @@ public class OperationLog implements Serializable {
     private String operVer;
 
         
-    public String getOperId() {
-        return operId;
+    public String getId() {
+        return id;
     }
 
-    public void setOperId(String operId) {
-        this.operId = operId;
+    public void setId(String id) {
+        this.id = id;
     }
         
     public String getOperModule() {
@@ -172,7 +172,7 @@ public class OperationLog implements Serializable {
     @Override
     public String toString(){
         return "OperationLog {" +
-            "operId : " + operId + ", " +
+            "id : " + id + ", " +
             "operModule : " + operModule + ", " +
             "operType : " + operType + ", " +
             "operDesc : " + operDesc + ", " +

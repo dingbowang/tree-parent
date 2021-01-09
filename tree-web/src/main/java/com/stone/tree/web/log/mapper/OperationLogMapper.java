@@ -1,27 +1,25 @@
 package com.stone.tree.web.log.mapper;
 
 import com.stone.tree.web.log.bean.OperationLog;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * (OperationLog)表数据库访问层
  *
  * @author makejava
- * @since 2021-01-03 14:34:13
+ * @since 2021-01-09 14:13:47
  */
-@Mapper
 public interface OperationLogMapper {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param operId 主键
+     * @param id 主键
      * @return 实例对象
      */
-    OperationLog selectById(String operId);
+    OperationLog selectById(String id);
 	
     /**
      * 分页查询
@@ -30,7 +28,7 @@ public interface OperationLogMapper {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<OperationLog> selectPage(@Param("start") int start, @Param("limit") int limit);
+    List<OperationLog> selectPage();
 
     /**
      * 查询全部
@@ -54,6 +52,14 @@ public interface OperationLogMapper {
      * @return 影响行数
      */
     int insert(OperationLog operationLog);
+    
+     /**
+     * 必填项新增数据
+     *
+     * @param operationLog 实例对象
+     * @return 影响行数
+     */
+    int insertSelective(OperationLog operationLog);
 	
 	/**
      * 批量新增
@@ -74,10 +80,10 @@ public interface OperationLogMapper {
     /**
      * 通过主键删除数据
      *
-     * @param operId 主键
+     * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String operId);
+    int deleteById(String id);
 
     /**
      * 查询总数据数

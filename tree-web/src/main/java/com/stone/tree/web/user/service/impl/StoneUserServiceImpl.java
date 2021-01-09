@@ -1,8 +1,12 @@
 package com.stone.tree.web.user.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.stone.tree.aop.ServiceException;
 import com.stone.tree.enums.BooleanE;
+import com.stone.tree.response.PageResult;
 import com.stone.tree.util.Md5Util;
+import com.stone.tree.util.PageUtil;
 import com.stone.tree.util.UUIDUtil;
 import com.stone.tree.web.user.bean.StoneUser;
 import com.stone.tree.web.user.mapper.StoneUserMapper;
@@ -45,8 +49,12 @@ public class StoneUserServiceImpl implements StoneUserService {
      * @return 对象列表
      */
     @Override
-    public List<StoneUser> selectPage(int start, int limit) {
-        return this.stoneUserMapper.selectPage(start, limit);
+    public PageResult selectPage(int start, int limit) {
+
+        PageHelper.startPage(start,limit);
+        List<StoneUser> stoneUsers = this.stoneUserMapper.selectPage();
+        PageInfo<StoneUser> pageInfo = new PageInfo<>(stoneUsers);
+        return PageUtil.pageReturn(pageInfo);
     }
 
     /**

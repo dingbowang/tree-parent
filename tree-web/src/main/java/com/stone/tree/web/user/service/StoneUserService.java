@@ -1,5 +1,6 @@
 package com.stone.tree.web.user.service;
 
+import com.stone.tree.response.PageResult;
 import com.stone.tree.web.user.bean.StoneUser;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface StoneUserService {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<StoneUser> selectPage(int start, int limit);
+    PageResult selectPage(int start, int limit);
 
     /**
      * 查询全部

@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Blog)实体类
  *
  * @author makejava
- * @since 2021-01-09 09:53:31
+ * @since 2021-01-09 14:04:08
  */
 public class Blog implements Serializable {
-    private static final long serialVersionUID = -56931709785614347L;
+    private static final long serialVersionUID = -43068583607036219L;
     /**
     * 主键id
     */
