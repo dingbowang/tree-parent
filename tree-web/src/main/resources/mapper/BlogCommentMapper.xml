@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stone.tree.web.comment.mapper.BlogCommentMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.stone.tree.web.comment.bean.BlogComment" id="BlogCommentMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="commentId" column="comment_id" jdbcType="VARCHAR"/>
+        <result property="blogId" column="blog_id" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, comment_id, blog_id, status    </sql>
+    
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="BlogCommentMap">
+        select
+          <include refid="Base_Column_List" />
+        from blog_comment
+        where id = #{id}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BlogCommentMap">
+        select
+        <include refid="Base_Column_List" />
+        from blog_comment
+        limit #{start},#{limit}
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="BlogCommentMap">
+        select
+        <include refid="Base_Column_List" />
+        from blog_comment
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="BlogCommentMap">
+        select
+        <include refid="Base_Column_List" />
+        from blog_comment
+        <where>
+                    <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+                    <if test="commentId != null and commentId != ''">
+                and comment_id = #{commentId}
+            </if>
+                    <if test="blogId != null and blogId != ''">
+                and blog_id = #{blogId}
+            </if>
+                    <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+                </where>
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into blog_comment(id, comment_id, blog_id, status)
+        values ( #{id}, #{commentId}, #{blogId}, #{status})
+    </insert>
+    
+    <!-- 新增所有列（选择性） -->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into blog_comment
+<trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null and id != ''">
+            id , 
+        </if>
+        <if test="commentId != null and commentId != ''">
+            comment_id , 
+        </if>
+        <if test="blogId != null and blogId != ''">
+            blog_id , 
+        </if>
+        <if test="status != null and status != ''">
+            status , 
+        </if>
+</trim>
+        values 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+         <if test="id != null and id != ''">
+            #{id}, 
+        </if>
+        <if test="commentId != null and commentId != ''">
+            #{commentId}, 
+        </if>
+        <if test="blogId != null and blogId != ''">
+            #{blogId}, 
+        </if>
+        <if test="status != null and status != ''">
+            #{status}, 
+        </if>
+</trim>
+    </insert>
+    
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into blog_comment(id, comment_id, blog_id, status)
+        values 
+        <foreach collection="blogComments" item="item" index="index" separator=",">
+        (
+                        #{item.id},             #{item.commentId},             #{item.blogId},             #{item.status}         )
+         </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update tree.blog_comment
+        <set>
+                    <if test="commentId != null and commentId != ''">
+                comment_id = #{commentId},
+            </if>
+                    <if test="blogId != null and blogId != ''">
+                blog_id = #{blogId},
+            </if>
+                    <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+                </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from blog_comment where id = #{id}
+    </delete>
+    
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from blog_comment
+    </select>
+</mapper>

@@ -56,7 +56,7 @@ public class OperLogAspect implements Ordered {
     }
 
     /**
-     * 设置操作异常切入点记录异常日志 扫描所有controller包下操作
+     * 设置操作异常切入点记录异常日志 扫描所有service包下操作
      */
     @Pointcut("execution(* com.stone.tree.web..service..*.*(..))")
     public void operExceptionLogPoinCut() {

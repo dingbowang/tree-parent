@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Blog)实体类
  *
  * @author makejava
- * @since 2021-01-08 18:17:00
+ * @since 2021-01-09 09:53:31
  */
 public class Blog implements Serializable {
-    private static final long serialVersionUID = 506519464370978922L;
+    private static final long serialVersionUID = -56931709785614347L;
     /**
     * 主键id
     */
@@ -29,7 +29,7 @@ public class Blog implements Serializable {
     
     private String blogRangeZh;
     /**
-    * 主题（1:日常；2:学习；3:娱乐）
+    * 主题（0:其他;1:日常；2:学习；3:娱乐）
     */
     private String blogTopic;
     
@@ -39,9 +39,13 @@ public class Blog implements Serializable {
     */
     private Long createTime;
     /**
-    * 创建人
+    * 创建人id
     */
-    private String createUser;
+    private String createUserId;
+    /**
+    * 创建人名称
+    */
+    private String createUserName;
     /**
     * 更新时间
     */
@@ -120,12 +124,20 @@ public class Blog implements Serializable {
         this.createTime = createTime;
     }
         
-    public String getCreateUser() {
-        return createUser;
+    public String getCreateUserId() {
+        return createUserId;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+        
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
         
     public Long getUpdateTime() {
@@ -163,7 +175,8 @@ public class Blog implements Serializable {
             "blogTopic : " + blogTopic + ", " +
             "blogTopicZh : " + blogTopicZh + ", " +
             "createTime : " + createTime + ", " +
-            "createUser : " + createUser + ", " +
+            "createUserId : " + createUserId + ", " +
+            "createUserName : " + createUserName + ", " +
             "updateTime : " + updateTime + ", " +
             "updateUser : " + updateUser + ", " +
             "status : " + status + ", " +

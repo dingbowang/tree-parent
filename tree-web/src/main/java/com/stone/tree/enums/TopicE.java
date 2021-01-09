@@ -7,6 +7,7 @@ package com.stone.tree.enums;
  */
 public enum TopicE {
 
+    other(0, "其他"),
     live(1, "日常"),
     study(2, "学习"),
     fun(3, "娱乐");
