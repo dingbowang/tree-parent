@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stone.tree.web.common.mapper.PictureMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.stone.tree.web.common.bean.Picture" id="PictureMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="picUrl" column="pic_url" jdbcType="VARCHAR"/>
+        <result property="picSourceType" column="pic_source_type" jdbcType="VARCHAR"/>
+        <result property="picType" column="pic_type" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        id, pic_url, pic_source_type, pic_type, status    </sql>
+    
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="PictureMap">
+        select
+          <include refid="Base_Column_List" />
+        from picture
+        where id = #{id}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="PictureMap">
+        select
+        <include refid="Base_Column_List" />
+        from picture
+    </select>
+
+    <!-- 查询全部 -->
+    <select id="selectAll" resultMap="PictureMap">
+        select
+        <include refid="Base_Column_List" />
+        from picture
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectList" resultMap="PictureMap">
+        select
+        <include refid="Base_Column_List" />
+        from picture
+        <where>
+                    <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+                    <if test="picUrl != null and picUrl != ''">
+                and pic_url = #{picUrl}
+            </if>
+                    <if test="picSourceType != null and picSourceType != ''">
+                and pic_source_type = #{picSourceType}
+            </if>
+                    <if test="picType != null and picType != ''">
+                and pic_type = #{picType}
+            </if>
+                    <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+                </where>
+    </select>
+
+    <!-- 新增所有列 -->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into picture(id, pic_url, pic_source_type, pic_type, status)
+        values ( #{id}, #{picUrl}, #{picSourceType}, #{picType}, #{status})
+    </insert>
+    
+    <!-- 新增所有列（选择性） -->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into picture
+<trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null and id != ''">
+            id , 
+        </if>
+        <if test="picUrl != null and picUrl != ''">
+            pic_url , 
+        </if>
+        <if test="picSourceType != null and picSourceType != ''">
+            pic_source_type , 
+        </if>
+        <if test="picType != null and picType != ''">
+            pic_type , 
+        </if>
+        <if test="status != null and status != ''">
+            status , 
+        </if>
+</trim>
+        values 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+         <if test="id != null and id != ''">
+            #{id}, 
+        </if>
+        <if test="picUrl != null and picUrl != ''">
+            #{picUrl}, 
+        </if>
+        <if test="picSourceType != null and picSourceType != ''">
+            #{picSourceType}, 
+        </if>
+        <if test="picType != null and picType != ''">
+            #{picType}, 
+        </if>
+        <if test="status != null and status != ''">
+            #{status}, 
+        </if>
+</trim>
+    </insert>
+    
+    <!-- 批量新增 -->
+    <insert id="batchInsert">
+        insert into picture(id, pic_url, pic_source_type, pic_type, status)
+        values 
+        <foreach collection="pictures" item="item" index="index" separator=",">
+        (
+                        #{item.id},             #{item.picUrl},             #{item.picSourceType},             #{item.picType},             #{item.status}         )
+         </foreach>
+    </insert>
+
+    <!-- 通过主键修改数据 -->
+    <update id="update">
+        update tree.picture
+        <set>
+                    <if test="picUrl != null and picUrl != ''">
+                pic_url = #{picUrl},
+            </if>
+                    <if test="picSourceType != null and picSourceType != ''">
+                pic_source_type = #{picSourceType},
+            </if>
+                    <if test="picType != null and picType != ''">
+                pic_type = #{picType},
+            </if>
+                    <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+                </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from picture where id = #{id}
+    </delete>
+    
+    <!-- 总数 -->
+    <select id="count" resultType="int">
+        select count(*) from picture
+    </select>
+</mapper>
