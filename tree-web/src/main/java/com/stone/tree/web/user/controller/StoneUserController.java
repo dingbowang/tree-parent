@@ -1,25 +1,35 @@
 package com.stone.tree.web.user.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.stone.tree.annotate.OperLog;
 import com.stone.tree.response.PageResult;
 import com.stone.tree.response.RetResponse;
 import com.stone.tree.response.RetResult;
 import com.stone.tree.util.FastDFSUtil;
+import com.stone.tree.util.RedisUtil;
 import com.stone.tree.web.user.bean.StoneUser;
+import com.stone.tree.web.user.bean.StoneUserVO;
 import com.stone.tree.web.user.service.StoneUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 import static com.stone.tree.constant.OperTypeConstant.*;
+import static com.stone.tree.constant.TokenConstant.SECRET_KEY;
+import static com.stone.tree.constant.TokenConstant.TOKEN_TIME;
 
 /**
  * 用户(StoneUser)控制层
@@ -45,6 +55,14 @@ public class StoneUserController {
 
     @Autowired
     private FastDFSUtil fastDFSUtil;
+
+    @Resource
+    private RedisUtil redisUtil;
+
+    @Value("${tree.domain}")
+    private String domain;
+
+
 
 
     @GetMapping("test")
@@ -75,12 +93,43 @@ public class StoneUserController {
      */
     @PostMapping("login")
     @OperLog(operModule = USERTYPE,operType = QUERY,operDesc = "用户登录")
-    public RetResult<StoneUser> login(StoneUser user){
+    public RetResult<StoneUserVO> login(StoneUser user){
         StoneUser stoneUser = stoneUserService.queryUser(user);
         if(stoneUser != null){
-            return RetResponse.makeOKRsp(stoneUser);
+            String token = createToken(stoneUser);
+            StoneUserVO userVO = new StoneUserVO();
+            BeanUtils.copyProperties(stoneUser, userVO);
+            userVO.setToken(token);
+            return RetResponse.makeOKRsp(userVO);
         }
         return RetResponse.makeErrRsp("查询失败");
+    }
+
+    private String createToken(StoneUser user) {
+            logger.info("com.stone.tree.web.user.controller-->createToken::user = [{}]",user);
+            //header信息
+            Map<String, Object> headerMap = new HashMap<>();
+            headerMap.put("alg","HS256");
+            headerMap.put("typ","JWT");
+            JWTCreator.Builder builder = JWT.create();
+            builder.withHeader(headerMap);
+            //自定义信息
+            Map<String, String> payLoadMap = new HashMap<>();
+            payLoadMap.put("userId",user.getId());
+            payLoadMap.forEach((x,y)->builder.withClaim(x, y));
+            //设置过期时间
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.SECOND,TOKEN_TIME);
+            Date nowTime = calendar.getTime();
+            builder.withExpiresAt(nowTime);
+            //设置生效时间
+            builder.withIssuedAt(new Date());
+            //利用密钥生成token
+            String token = builder.sign(Algorithm.HMAC256(SECRET_KEY));
+            if(StringUtils.isNotBlank(token)){
+                redisUtil.set(user.getId(),token,TOKEN_TIME);
+            }
+            return token;
     }
 
 
@@ -175,10 +224,13 @@ public class StoneUserController {
     }
 
     @PostMapping("uploadPic")
-    public RetResult<StoneUser>  uploadPic(MultipartFile file) throws IOException {
+    public RetResult<Map<String,String>> uploadPic(MultipartFile file) throws IOException {
         String upload = fastDFSUtil.upload(file);
         logger.info("地址："+upload);
-        return RetResponse.makeOKRsp();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("uri",upload);
+        map.put("url",domain+upload);
+        return RetResponse.makeOKRsp(map);
     }
 
     @GetMapping("deleteFile")
