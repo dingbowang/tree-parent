@@ -2,6 +2,7 @@ package com.stone.tree.web.user.service;
 
 import com.stone.tree.response.PageResult;
 import com.stone.tree.web.user.bean.StoneUser;
+import com.stone.tree.web.user.bean.StoneUserVO;
 
 import java.util.List;
 
@@ -89,5 +90,11 @@ public interface StoneUserService {
      * @param user
      * @return
      */
-    StoneUser queryUser(StoneUser user);
+    StoneUserVO queryUserForLogin(StoneUser user);
+
+    /**
+     * 退出登录
+     * @param token
+     */
+    void loginOUt(String token);
 }

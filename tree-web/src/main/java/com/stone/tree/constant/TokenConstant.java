@@ -32,7 +32,11 @@ public class TokenConstant {
      */
     public static String IGNORE_LOGIN="login";
     /**
-     * 过期时间
+     * token过期时间
      */
     public static int TOKEN_TIME=60 * 60 * 2;
+    /**
+     * jwt's token 过期时间
+     */
+    public static int JWT_TOKEN_TIME=60 * 60 * 24 * 7;
 }

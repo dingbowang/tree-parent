@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.stone.tree.constant.TokenConstant.TOKEN_TIME;
+
 /**
  * @author dbw
  * @date 2021/01/04/11:08 下午
@@ -53,6 +55,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             logger.info("redis与传入token不相等 {}::{}",token,userId);
             return false;
         }
+        //更新token时间
+        long beforeExpire = redisUtil.getExpire(userId);
+        logger.info("com.stone.tree.interceptor-->preHandle::beforeExpire{}:",beforeExpire);
+        redisUtil.expire(userId,TOKEN_TIME);
+        long afterExpire = redisUtil.getExpire(userId);
+        logger.info("com.stone.tree.interceptor-->preHandle::afterExpire{}:",afterExpire);
         return true;
     }
 }
