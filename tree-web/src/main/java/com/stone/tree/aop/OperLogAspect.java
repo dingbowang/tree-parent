@@ -78,7 +78,8 @@ public class OperLogAspect implements Ordered {
 
         OperationLog operlog = new OperationLog();
         try {
-            operlog.setId(UUIDUtil.getUUID()); // 主键ID
+            // 主键ID
+            operlog.setId(UUIDUtil.getUUID());
 
             // 从切面织入点处通过反射机制获取织入点处的方法
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -90,9 +91,12 @@ public class OperLogAspect implements Ordered {
                 String operModul = opLog.operModule();
                 String operType = opLog.operType();
                 String operDesc = opLog.operDesc();
-                operlog.setOperModule(operModul); // 操作模块
-                operlog.setOperType(operType); // 操作类型
-                operlog.setOperDesc(operDesc); // 操作描述
+                // 操作模块
+                operlog.setOperModule(operModul);
+                // 操作类型
+                operlog.setOperType(operType);
+                // 操作描述
+                operlog.setOperDesc(operDesc);
             }
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();
@@ -100,21 +104,30 @@ public class OperLogAspect implements Ordered {
             String methodName = method.getName();
             methodName = className + "." + methodName;
 
-            operlog.setOperMethod(methodName); // 请求方法
+            // 请求方法
+            operlog.setOperMethod(methodName);
 
             // 请求的参数
             Map<String, String> rtnMap = converMap(request.getParameterMap());
             // 将参数所在的数组转换成json
             String params = JSON.toJSONString(rtnMap);
 
-            operlog.setOperReqParam(params); // 请求参数
-            operlog.setOperRespParam(JSON.toJSONString(keys)); // 返回结果
-            operlog.setOperUserId("UserShiroUtil.getCurrentUserLoginName()"); // 请求用户ID
-            operlog.setOperUserName("UserShiroUtil.getCurrentUserName()"); // 请求用户名称
-            operlog.setOperIp(NetworkUtil.getIpAddress(request)); // 请求IP
-            operlog.setOperUri(request.getRequestURI()); // 请求URI
-            operlog.setOperCreateTime(new Date()); // 创建时间
-            operlog.setOperVer(operVer); // 操作版本
+            // 请求参数
+            operlog.setOperReqParam(params);
+            // 返回结果
+            operlog.setOperRespParam(JSON.toJSONString(keys));
+            // 请求用户ID
+            operlog.setOperUserId("UserShiroUtil.getCurrentUserLoginName()");
+            // 请求用户名称
+            operlog.setOperUserName("UserShiroUtil.getCurrentUserName()");
+            // 请求IP
+            operlog.setOperIp(NetworkUtil.getIpAddress(request));
+            // 请求URI
+            operlog.setOperUri(request.getRequestURI());
+            // 创建时间
+            operlog.setOperCreateTime(new Date());
+            // 操作版本
+            operlog.setOperVer(operVer);
             operationLogService.insert(operlog);
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,16 +222,26 @@ public class OperLogAspect implements Ordered {
             Map<String, String> rtnMap = converMap(request.getParameterMap());
             // 将参数所在的数组转换成json
             String params = JSON.toJSONString(rtnMap);
-            excepLog.setExcReqParam(params); // 请求参数
-            excepLog.setOperMethod(methodName); // 请求方法名
-            excepLog.setExcName(e.getClass().getName()); // 异常名称
-            excepLog.setExcMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace())); // 异常信息
-            excepLog.setOperUserId("UserShiroUtil.getCurrentUserLoginName()"); // 操作员ID
-            excepLog.setOperUserName("UserShiroUtil.getCurrentUserName()"); // 操作员名称
-            excepLog.setOperUri(request.getRequestURI()); // 操作URI
-            excepLog.setOperIp(NetworkUtil.getIpAddress(request)); // 操作员IP
-            excepLog.setOperVer(operVer); // 操作版本号
-            excepLog.setOperCreateTime(new Date()); // 发生异常时间
+            // 请求参数
+            excepLog.setExcReqParam(params);
+            // 请求方法名
+            excepLog.setOperMethod(methodName);
+            // 异常名称
+            excepLog.setExcName(e.getClass().getName());
+            // 异常信息
+            excepLog.setExcMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
+            // 操作员ID
+            excepLog.setOperUserId("UserShiroUtil.getCurrentUserLoginName()");
+            // 操作员名称
+            excepLog.setOperUserName("UserShiroUtil.getCurrentUserName()");
+            // 操作URI
+            excepLog.setOperUri(request.getRequestURI());
+            // 操作员IP
+            excepLog.setOperIp(NetworkUtil.getIpAddress(request));
+            // 操作版本号
+            excepLog.setOperVer(operVer);
+            // 发生异常时间
+            excepLog.setOperCreateTime(new Date());
             exceptionLogService.insert(excepLog);
 
         } catch (Exception e2) {
