@@ -5,17 +5,17 @@ server:
     context-path: /tree
 
 tree:
-  domain: http://120.79.217.47/
+  domain: http://47.103.198.189/
 
 
 #数据源：
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://120.79.217.47:3306/tree?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://localhost:3306/tree?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://47.103.198.189:3306/tree?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    #url: jdbc:mysql://localhost:3306/tree?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: ding1230@
+    password: ding1230
 #    type: com.alibaba.druid.pool.DruidDataSource
 #    druid:
  #     initial-size: 5
@@ -23,7 +23,7 @@ spring:
    #   max-active: 20
     #  max-wait: 60000
   redis:
-    host: 120.79.217.47
+    host: 47.103.198.189
     port: 6379
     connect-timeout: 6000
     jedis:
