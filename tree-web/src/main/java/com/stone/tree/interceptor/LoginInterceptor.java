@@ -34,7 +34,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
         if(StringUtils.isBlank(token)){
-            return false;
+            //return false;暂时不做登录拦截
+            return true;
         }
         //根据token拿到userId
         DecodedJWT decode = JWT.decode(token);
