@@ -74,7 +74,7 @@ public class StoneUserController {
     @PostMapping("register")
     @OperLog(operModule = USERTYPE,operType = ADD,operDesc = "用户注册")
     @ApiOperation(value = "用户注册", notes="姓名，手机号，密码必填")
-    public RetResult<StoneUser> register(StoneUser user){
+    public RetResult<StoneUser> register(@RequestBody() StoneUser user){
         int insert = stoneUserService.insert(user);
         if(insert == 1){
             return RetResponse.makeOKRsp();
@@ -89,7 +89,7 @@ public class StoneUserController {
      */
     @PostMapping("login")
     @OperLog(operModule = USERTYPE,operType = QUERY,operDesc = "用户登录")
-    public RetResult<StoneUserVO> login(StoneUser user){
+    public RetResult<StoneUserVO> login(@RequestBody StoneUser user){
         StoneUserVO stoneUser = stoneUserService.queryUserForLogin(user);
         if(stoneUser != null){
             return RetResponse.makeOKRsp(stoneUser);
